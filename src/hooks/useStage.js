@@ -1,5 +1,5 @@
-import { useState, useEffect } from "react";
-import { createStage } from "../gameHelpers";
+import { useState, useEffect } from 'react';
+import { createStage } from '../gameHelpers';
 
 export const useStage = (player, resetPlayer) => {
     const [stage, setStage] = useState(createStage());
@@ -7,12 +7,11 @@ export const useStage = (player, resetPlayer) => {
 
     useEffect(() => {
         setRowsCleared(0);
-
         const sweepRows = newStage =>
             newStage.reduce((ack, row) => {
                 if (row.findIndex(cell => cell[0] === 0) === -1) {
                     setRowsCleared(prev => prev + 1);
-                    ack.unshift(new Array(newStage[0].length).fill[0, 'clear']);
+                    ack.unshift(new Array(newStage[0].length).fill([0, 'clear']));
                     return ack;
                 }
                 ack.push(row);
@@ -29,7 +28,6 @@ export const useStage = (player, resetPlayer) => {
             player.tetromino.forEach((row, y) => {
                 row.forEach((value, x) => {
                     if (value !== 0) {
-                        console.log(value);
                         newStage[y + player.pos.y][x + player.pos.x] = [
                             value,
                             `${player.collided ? 'merged' : 'clear'}`,
@@ -47,12 +45,13 @@ export const useStage = (player, resetPlayer) => {
 
         // Here are the updates
         setStage(prev => updateStage(prev));
-    }, [player.collided,
-    player.pos.x,
-    player.pos.y,
-    player.tetromino,
-        resetPlayer,]);
-
+    }, [
+        player.collided,
+        player.pos.x,
+        player.pos.y,
+        player.tetromino,
+        resetPlayer,
+    ]);
 
     return [stage, setStage, rowsCleared];
-}
+};
